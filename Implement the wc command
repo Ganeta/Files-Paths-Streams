@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+
+public class WordCountResult {
+
+    private int wordCount;
+    private int linesCount;
+    private int charactersCount;
+
+    public WordCountResult() {
+        wordCount = 0;
+        linesCount = 0;
+        charactersCount = 0;
+
+    }
+
+    public void wordCount(File file) throws IOException {
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        try {
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] lineSplit = line.split("\\s+");
+                String[] charactSplit = line.split(" ");
+                String replaceAll = line.replaceAll("\\s+", "");
+
+                for (int i = 0; i < replaceAll.length(); i++) {
+                    charactersCount++;
+                }
+                wordCount += lineSplit.length;
+                linesCount++;
+
+            }
+            System.out.printf("Words in file are: %d\n", wordCount);
+            System.out.printf("Lines are: %d\n", linesCount);
+            System.out.printf("Charaters are: %d\n", charactersCount);
+        } finally {
+            br.close();
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        WordCountResult test = new WordCountResult();
+        File fileTest = new File("C:/testData/testData/A/a");
+        test.wordCount(fileTest);
+
+    }
+
+}
