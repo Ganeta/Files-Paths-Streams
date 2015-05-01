@@ -1,0 +1,70 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {
+
+    }
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+
+    // instance.getInstance();
+
+    public String readFrom(File file) throws IOException {
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.getProperty("line.separator"));
+                line = br.readLine();
+            }
+            return sb.toString();
+        } finally {
+            br.close();
+        }
+    }
+
+    public String readFrom2(Path path) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(path.toFile()));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.getProperty("line.separator"));
+                line = br.readLine();
+            }
+            return sb.toString();
+        } finally {
+            br.close();
+        }
+    }
+
+    public static void main(String args[]) throws IOException {
+
+        Singleton.getInstance();
+
+        File testFile = new File("C:/testData/testData/A/a");
+        Path testFileSecond = Paths.get("C:/testData/testData/B/b");
+
+        System.out.println(instance.readFrom(testFile));
+        System.out.println(instance.readFrom2(testFileSecond));
+
+    }
+}
